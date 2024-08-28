@@ -66,7 +66,17 @@ figure
 % this function do and how would you use it?
 
 %
-% Answer: 
+% Answer: The ttest function in MATLAB is used to check if the average of a
+% sample is used to assess if the means of a sample is significaantly
+% different from a specefic value, which is normally 0, or if two samples
+% have different averages. This function gives a decision on the null
+% hypothesis, as well as the p value that signifies statistical
+% significance of the test result.
+
+
+
+
+
 %
 
 % 8. What are the 2 major types of loops that MATLAB supports? What is the
@@ -140,7 +150,7 @@ maxNameLength = 63;
 originalWeightkg = 100;
 % Add your code on the next line
 orginalWeightlbs = 2.205*(originalWeightkg);
-orignalWeightoz =  35.274*(orignalWeightoz);
+orignalWeightoz =  35.274*(originalWeightkg);
 
 %Display
 who orginalWeightlbs orignalWeightoz
@@ -204,7 +214,6 @@ disp(vec)
 rowVec = -1:0.5:1;
 colVec = rowVec';
 
-disp(colVec)
 
 
 % 22. Create a variable called rows that is a random integer in the inclusive range 
@@ -283,7 +292,7 @@ ROI = ((totalRevenues - totalCost)/totalCost) * 100;
 
 %%% Enter the code for your program below this line
 
-
+disp('Hello World')
 
 
 
