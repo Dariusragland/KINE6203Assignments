@@ -40,9 +40,9 @@ fprintf('   1) Beginner (range is 1 to %d)\n', beginnerHighest)
 fprintf('   2) Moderate (range is 1 to %d)\n', moderateHighest)
 fprintf('   3) Advanced (range is 1 to %d)\n', advancedHighest)
 
-level = input('Enter level (1-3): '); 
-
-while level ~= beginner || level ~= moderate || level ~= advanced       
+level = input('Enter level (1-3): '); % Bug found: I found this by trying to run the code and not being allowed to enter 1-3. Incorrect logic for validating level. 
+% Fix: Use logical AND (&&) instead of OR (||) and check bounds.
+while level < beginner || level > advanced       
 fprintf('Sorry, that is not a valid level selection.\n')
 level = input('Please re-enter a level of play (1-3): ');
 end
@@ -58,18 +58,23 @@ elseif level == moderate
 highest = moderateHighest;
 
 else
-highest = advancedhighest;          
+highest = advancedHighest;    
 end
-
+%Bug Found: The variable was named incorrectly typed as "advancedhighest" 
+      %Fix: "advancedHighest
 % randomly select secret number between 1 and highest for level of play
 
-secretNumber = floor(rand() + 1 * highest);     
+% Bug Found: Incorrect random number function
+    % Fix: Use `randi(highest)` to generate a random integer.
+    secretNumber = randi(highest);
 
 % initialize number of guesses and User_guess
-
-numOfTries = 1;
+                % Bug Found: inccorectly intialized to 1
+numOfTries = 0; % Fix: Start at 0, increment later.
 userGuess = 0;
 
+%Bug found: Guesses exceed the range of 1-1000 for highest guess
+%fix: Relational operator in logical array should be ">" not ">="
 % repeatedly get user's guess until the user guesses correctly
 
 while userGuess ~= secretNumber
@@ -78,33 +83,35 @@ while userGuess ~= secretNumber
 
 fprintf('\nEnter a guess (1-%d): ', highest);
 userGuess = input('');
-while userGuess < 1 || userGuess >= highest
-
+    while userGuess < 1 || userGuess > highest
 fprintf('Sorry, that is not a valid guess.\nRe-enter a guess (1-%d): ', highest);
+userGuess = input('Re-enter a guess:');
 
-userGuess = input('');
-
-end % of guess validation loop
+    end % of guess validation loop
 
 % add 1 to the number of guesses the user has made
 
-numOfTries = numOfTries + 1;
+numOfTries = numOfTries + 1; %Bug found: Position of numofTries is outside the loop
+                        % Fix: move statement after the validation loop
 
 % report whether the user's guess was high, low, or correct
 
-if userGuess > secretNumber
-fprintf('Sorry, %d is too low.\n', userGuess);
-elseif userGuess > secretNumber 
-fprintf('Sorry, %d is too high.\n', userGuess);
-elseif numOfTries == 1
-fprintf('\nLucky You!  You got it on your first try!\n\n');
+if userGuess < secretNumber
+    fprintf('Sorry, %d is too low.\n', userGuess);
+elseif userGuess > secretNumber %Bug found: This condtional statement is the same as the if statement above. 
+    fprintf('Sorry, %d is too high.\n', userGuess); %Fix:Change the operative sign
 else
-fprintf('\nCongratulations!  You got %d in %d tries.\n\n', ...
-secretNumber);
-
-
-fprintf('Game Over. Thanks for playing the Guess That Number game.\n\n');
-
-end  % of guessing while loop
-
-% end of game
+% Bug Found: No closing `end` after success message
+            % Fix: Added appropriate nesting and fixed conditional formatting.
+            if numOfTries == 1
+                fprintf('\nLucky You! You got it on your first try!\n\n');
+            else
+                fprintf('\nCongratulations! You guessed %d in %d tries.\n\n', secretNumber, numOfTries);
+            end
+end %end of if statement
+end % end of main while loop
+% Final message after the game ends % Bug found:final message appeared
+% before end of game.
+%fix: ensure fprint statement occured outside of while loop
+    fprintf('Game Over. Thanks for playing the Guess That Number game.\n\n');  % of guessing while loop
+end % end of game
